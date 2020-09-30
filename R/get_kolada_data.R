@@ -11,13 +11,14 @@
 
 getMetadata=function(entity,title=NULL)
 {
+  stopifnot(is.character(entity),is.atomic(entity))
   url=GET(paste("http://api.kolada.se/v2/", entity, sep = "", "?title=", title))
   if(entity=="kpi"| entity=="municipality" | entity=="ou" | entity=="kpi_groups" |
      entity== "municipality_groups"){
     result=fromJSON(content(url,"text",encoding = "utf-8"), flatten=TRUE)
   }
   else{
-    return("Entity is not correct")
+    return("Entity is not found")
   }
   if(entity=="kpi_groups"){
   kpi.group.data.frame=as.data.frame(result)
