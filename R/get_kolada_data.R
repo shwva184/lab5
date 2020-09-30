@@ -42,3 +42,103 @@ getMetadata=function(entity,title=NULL)
   if (result["count"] == 0) return(data.frame())
   return(as.data.frame(result))
 }
+
+#' Retrieving data for given kpi, municipality and years
+#'
+#' @param kpi Entity KPI
+#' @param municipality_id Passing the id of municipality 
+#' @param year A vector of years
+#' @import tidyverse
+#' @import tidyr
+#'
+#' @return Returns a data.frame containing the data for a given kpi, municipality and year
+#'
+#' @examples fetch_with_all_given_entity("N00945",1860,c(2009,2007,2008))
+#' @export
+
+fetch_with_all_given_entity= function(kpi,municipality_id,year){
+  stopifnot(is.atomic(kpi),is.atomic(municipality_id))
+  final_result=data.frame()
+  for (i in year){
+    url = paste("http://api.kolada.se/v2/data/kpi",kpi,"municipality",municipality_id,"year",i,sep= "/")
+    m1= GET(url)
+    m2=content(m1,as = "text")
+    m3=fromJSON(m2)[["values"]]
+    m4=unnest(m3,"values")
+    final_result= rbind(final_result,as.data.frame(m4))
+  }
+  return(final_result)
+}
+
+#' Retrieving data for given kpi and years
+#'
+#' @param kpi Entity KPI
+#' @param year A vector of years
+#' @import tidyverse
+#' @import tidyr
+#' @return Returns a data.frame containing the data for a given kpi and year
+#'
+#' @examples fetch_with_given_kpiandyear("N00905",2009)
+#' @export
+#' 
+fetch_with_given_kpiandyear = function(kpi,year){
+  final_result=data.frame()
+  for (i in year){
+    url = paste("http://api.kolada.se/v2/data/kpi",kpi,"year",i,sep= "/")
+    m1= GET(url)
+    m2=content(m1,as = "text")
+    m3=fromJSON(m2)[["values"]]
+    m4=unnest(m3,"values")
+    final_result= rbind(final_result,as.data.frame(m4))
+  }
+  return(final_result)
+}
+
+#' Retrieving data for given municipality and years
+#'
+#' @param municipality_id Passing the id of municipality 
+#' @param year A vector of years
+#' 
+#' @import tidyverse
+#' @import tidyr
+#' @return Returns a data.frame containing the data for a given municipality and year
+#'
+#' @examples fetch_with_given_muncipalityandyear(1860,2009)
+#' @export
+#' 
+fetch_with_given_muncipalityandyear = function(municipality_id,year){
+  final_result=data.frame()
+  for (i in year){
+    url = paste("http://api.kolada.se/v2/data/municipality",municipality_id,"year",i,sep= "/")
+    m1= GET(url)
+    m2=content(m1,as = "text")
+    m3=fromJSON(m2)[["values"]]
+    m4=unnest(m3,"values")
+    final_result= rbind(final_result,as.data.frame(m4))
+  }
+  return(final_result)
+}
+
+#' Retrieving data for given kpi and municipality.
+#'
+#' @param kpi Entity KPI
+#' @param municipality_id Passing the id of municipality 
+#' 
+#' @import tidyverse
+#' @import tidyr
+#' @return Returns a data.frame containing the data for a given kpi and municipality.
+#'
+#' @examples fetch_with_given_kpiandmuncipality_id("N00945",1860)
+#' @export
+#' 
+
+fetch_with_given_kpiandmuncipality_id = function(kpi,municipality_id){
+  final_result=data.frame()
+    url = paste("http://api.kolada.se/v2/data/kpi",kpi,"municipality",municipality_id,sep= "/")
+    m1= GET(url)
+    m2=content(m1,as = "text")
+    m3 = fromJSON(m2)[["values"]]
+    m4 = unnest(m3,"values")
+    final_result= as.data.frame(m4)
+  return(final_result)
+}
