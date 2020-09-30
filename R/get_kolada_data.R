@@ -16,6 +16,9 @@ getMetadata=function(entity,title=NULL)
      entity== "municipality_groups"){
     result=fromJSON(content(url,"text",encoding = "utf-8"), flatten=TRUE)
   }
+  else{
+    return("Entity is not correct")
+  }
   if(entity=="kpi_groups"){
   kpi.group.data.frame=as.data.frame(result)
   kpi.data.frame = data.frame(member_id = integer(), member_title = character())
@@ -24,6 +27,15 @@ getMetadata=function(entity,title=NULL)
     kpi.data.frame = rbind(kpi.data.frame, group_kpi)
   }
   return(kpi.data.frame)
+  }
+  if(entity=="municipality_groups"){
+  munic.group.data.frame=as.data.frame(result)
+  munic.data.frame = data.frame(member_id = integer(), member_title = character())
+  for (i in 1:nrow(munic.group.data.frame)) {
+    group_munic = munic.group.data.frame[i, 3][[1]]
+    munic.data.frame = rbind(munic.data.frame, group_munic)
+  }
+  return(munic.data.frame)
   }
   if (result["count"] == 0) return(data.frame())
   return(as.data.frame(result))
