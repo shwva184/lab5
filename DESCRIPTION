@@ -1,0 +1,18 @@
+Package: Lab5Assign
+Type: Package
+Title: A package connecting to web API
+Version: 1.0
+Date: 2020-09-30
+Author: shwetha ,suhani, Hoda
+Maintainer: shwetha <shwva184@student.liu.se>, suhani <suhar073@student.liu.se>, hoda<hodfa840@student.liu.se>
+Description: The package is created to connect to the Kolada API using R.It will also implement
+    a simple Shiny application using the package to connect to the API.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Import: httr,
+    jsonlite,
+    tidyverse
+Suggests:
+    testthat
