@@ -1,7 +1,8 @@
 #' Get an object from the Kolada API
 #'
 #' @param entity The entity of search query for KPI, municipality, OU, kpi_groups, municipality_groups
-#'
+#' @param title The title of the corresponding entity
+#' 
 #' @import httr
 #' @import jsonlite
 #' @return Returns a data.frame containing the data corresponding to the entity

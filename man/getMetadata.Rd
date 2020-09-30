@@ -8,6 +8,8 @@ getMetadata(entity, title = NULL)
 }
 \arguments{
 \item{entity}{The entity of search query for KPI, municipality, OU, kpi_groups, municipality_groups}
+
+\item{title}{The title of the corresponding entity}
 }
 \value{
 Returns a data.frame containing the data corresponding to the entity
