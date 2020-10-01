@@ -135,7 +135,7 @@ fetch_given_muncipalityandyear = function(municipality_id,year){
 #' 
 
 fetch_given_kpiandmuncipality_id = function(kpi,municipality_id){
-  stopifnot(is.numeric(municipality_id), is.character(kpi),is.atomic(kpi),is.atomic(municipality_id))
+  stopifnot(is.character(kpi),is.atomic(kpi),is.atomic(municipality_id))
   final_result=data.frame()
     url = paste("http://api.kolada.se/v2/data/kpi",kpi,"municipality",municipality_id,sep= "/")
     m1= GET(url)

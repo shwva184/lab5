@@ -10,6 +10,9 @@
 library(shiny)
 library(shinythemes)
 
+a=getMetadata("kpi")
+b=getMetadata("municipality")
+
 # Define UI for application that draws a histogram
 ui <- fluidPage( theme=shinytheme("superhero"),
     navbarPage(
@@ -33,8 +36,8 @@ ui <- fluidPage( theme=shinytheme("superhero"),
             "Kpi and Municipality",
             sidebarPanel(
                 tags$h2("Input"),
-                textInput("kpi","Enter KPI Id :", "N00945"),
-                numericInput("munici","Enter Municipality id :", 1860),
+                selectInput("kpi","Select KPI",choices = a$values.id),
+                selectInput("munici","Select Municipality id :", choices = b$values.id )
                 
             ),
             mainPanel(
@@ -49,8 +52,6 @@ ui <- fluidPage( theme=shinytheme("superhero"),
 server <- function(input, output) {
 
     output$result = renderTable({
-        a=getMetadata("kpi")
-        b=getMetadata("municipality")
         shiny::validate(need(input$kpi %in% a$values.id , "Invalid KPI , Please look into KPI tab and input a valid KPI Id"))
         shiny::validate(need(input$munici %in% b$values.id , "Invalid municipality id , Please look into Municipality tab and input a valid Municipality Id"))
         fetch_given_kpiandmuncipality_id(input$kpi,input$munici)
@@ -58,15 +59,13 @@ server <- function(input, output) {
     })
     output$kpi1 = renderTable({
         rowset=c(5,14,2,3)
-        temp=getMetadata("kpi")
-        res=temp[rowset]
+        res=a[rowset]
         names(res)=c("KPI Id","Title","Auspices","Description")
         res
     })
     output$munici1 = renderTable({
         rowset1=c(2,3,4)
-        temp1=getMetadata("municipality")
-        res1=temp1[rowset1]
+        res1=b[rowset1]
         names(res1)=c("Municipality Id","Title","Type")
         res1
     })

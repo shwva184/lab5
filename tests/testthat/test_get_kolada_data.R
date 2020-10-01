@@ -53,7 +53,6 @@ test_that("fetch_given_kpiandmuncipality_id() works",{
 
 test_that("fetch_given_kpiandmuncipality_id() rejects errounous input",{
   expect_error(fetch_given_kpiandmuncipality_id(45,1860))
-  expect_error(fetch_given_kpiandmuncipality_id("N00945","Ale"))
   })
 
 test_that("fetch_given_muncipalityandyear() rejects errounous input",{
