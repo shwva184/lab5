@@ -51,8 +51,8 @@ server <- function(input, output) {
     output$result = renderTable({
         a=getMetadata("kpi")
         b=getMetadata("municipality")
-        validate(need(input$kpi %in% a$values.id , "Invalid KPI , Please look into KPI tab and input a valid KPI Id"))
-        validate(need(input$munici %in% b$values.id , "Invalid municipality id , Please look into Municipality tab and input a valid Municipality Id"))
+        shiny::validate(need(input$kpi %in% a$values.id , "Invalid KPI , Please look into KPI tab and input a valid KPI Id"))
+        shiny::validate(need(input$munici %in% b$values.id , "Invalid municipality id , Please look into Municipality tab and input a valid Municipality Id"))
         fetch_given_kpiandmuncipality_id(input$kpi,input$munici)
        
     })
