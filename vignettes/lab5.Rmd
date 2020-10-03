@@ -1,5 +1,5 @@
 ---
-title: "lab5"
+title: <span style="color:blue">Lab5</span>
 output: rmarkdown::html_vignette
 author: "Hoda, shwetha ,suhani"
 vignette: >
@@ -34,24 +34,34 @@ The general structure of the data is::
 
     KPI, municipal or organizational unit, year, gender: data
 source: https://github.com/Hypergene/kolada#kolada-api
+------------------------------------------------------------
 
-# To install:
+<span style="color:blue">How to install</span>
+=============
 
 ```{r , eval=FALSE}
 devtools::install_github("shwva184/lab5")
 
 ```
-$~$
 
-# How to Use:
+<span style="color:blue">Required packages</span>
+=================
+
 ```{r setup}
 library(Lab5Assign)
+library(dplyr)
+require(shiny)
+require(shinythemes)
+```
+### <span style="color:blue">How to Use</span>
+
+to run the API interface :
 
 ```
-```{r }
-library(shiny)
-library(shinythemes)
+runGitHub(repo = 'shwva184/lab5',username ='shwva184',subdir = 'inst' )
 ```
+
+### <span style="color:blue">instruction to run from a consule</span>
 To retrieve information about all the municipality run:
 ```{r }
 head(data.frame(Lab5Assign::getMetadata(entity ='municipality')))
@@ -60,7 +70,7 @@ head(data.frame(Lab5Assign::getMetadata(entity ='municipality')))
 To retrieve information about a specific municipality (ie.Helsingborg ) run:
 
 ```{r }
-Lab5Assign::getMetadata("municipality","Helsingborg")
+getMetadata("municipality","Helsingborg")
 ```
 To retrieve information about all the kpi in dataset 
 run:
@@ -69,4 +79,13 @@ head(data.frame(Lab5Assign::getMetadata(entity ='kpi')))
 
 ```
 
-To retrieve information about a specific kpi(ie. )
+To retrieve information about a specific kpi(ie. N00945) and a given municipality_id(ie. 1440) for a specific year run:
+
+```{r }
+head(data.frame(Lab5Assign::fetch_all_given_entity(kpi = "N00945",municipality_id = 1440,year = c(2009,2007,2008))))
+```
+
+To retrieve details from a municipality_id(ie. 1860) in particular year enter(ie. 2009):
+```{r }
+head(fetch_given_muncipalityandyear(1860,2009))
+```
