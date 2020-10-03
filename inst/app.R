@@ -6,7 +6,7 @@
 #
 #    http://shiny.rstudio.com/
 #
-
+#' @export
 library(shiny)
 library(shinythemes)
 

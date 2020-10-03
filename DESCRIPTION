@@ -15,4 +15,7 @@ Imports: httr,
     jsonlite,
     tidyverse,tidyr
 Suggests:
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
