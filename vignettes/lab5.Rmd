@@ -1,0 +1,91 @@
+---
+title: <span style="color:blue">Lab5</span>
+output: rmarkdown::html_vignette
+author: "Hoda, shwetha ,suhani"
+vignette: >
+  %\VignetteIndexEntry{lab5}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+The kolada database
+-------------------
+
+Within the kolada database there are two different types of data. 
+
+* The municipal data 
+* The organizational unit data
+
+The municipal data contains KPIs for the Swedish kommuner and
+landsting, there are about 4500 KPIs within the database. On
+organizational unit level the data is less comprehensive, but there
+are still quite a few KPIs on this level. Each KPI is currently
+measured once a year, and the data may be divided by gender. I.e. for
+each KPI there may be at most three values, based on gender being
+female, male and a total.
+
+The general structure of the data is::
+
+    KPI, municipal or organizational unit, year, gender: data
+source: https://github.com/Hypergene/kolada#kolada-api
+------------------------------------------------------------
+
+<span style="color:blue">How to install</span>
+=============
+
+```{r , eval=FALSE}
+devtools::install_github("shwva184/lab5")
+
+```
+
+<span style="color:blue">Required packages</span>
+=================
+
+```{r setup}
+library(Lab5Assign)
+library(dplyr)
+require(shiny)
+require(shinythemes)
+```
+### <span style="color:blue">How to Use</span>
+
+to run the API interface :
+
+```
+runGitHub(repo = 'shwva184/lab5',username ='shwva184',subdir = 'inst' )
+```
+
+### <span style="color:blue">instruction to run from a consule</span>
+To retrieve information about all the municipality run:
+```{r }
+head(data.frame(Lab5Assign::getMetadata(entity ='municipality')))
+```
+
+To retrieve information about a specific municipality (ie.Helsingborg ) run:
+
+```{r }
+getMetadata("municipality","Helsingborg")
+```
+To retrieve information about all the kpi in dataset 
+run:
+```{r 'kpi'}
+head(data.frame(Lab5Assign::getMetadata(entity ='kpi')))
+
+```
+
+To retrieve information about a specific kpi(ie. N00945) and a given municipality_id(ie. 1440) for a specific year run:
+
+```{r }
+head(data.frame(Lab5Assign::fetch_all_given_entity(kpi = "N00945",municipality_id = 1440,year = c(2009,2007,2008))))
+```
+
+To retrieve details from a municipality_id(ie. 1860) in particular year enter(ie. 2009):
+```{r }
+head(fetch_given_muncipalityandyear(1860,2009))
+```
