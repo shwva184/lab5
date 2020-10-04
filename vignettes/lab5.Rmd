@@ -72,11 +72,15 @@ To retrieve information about a specific municipality (ie.Helsingborg ) run:
 ```{r }
 getMetadata("municipality","Helsingborg")
 ```
-To retrieve information about all the kpi in dataset 
-run:
-```{r 'kpi'}
-head(data.frame(Lab5Assign::getMetadata(entity ='kpi')))
 
+To retrieve details for a specific kpi(ie. N00945) and municipality_id(ie. 1860)
+```{r }
+head(fetch_given_kpiandmuncipality_id("N00945",1860))
+```
+
+To retrieve details from a municipality_id(ie. 1860) in particular year enter(ie. 2009):
+```{r }
+head(fetch_given_muncipalityandyear(1860,2009))
 ```
 
 To retrieve information about a specific kpi(ie. N00945) and a given municipality_id(ie. 1440) for a specific year run:
@@ -85,7 +89,9 @@ To retrieve information about a specific kpi(ie. N00945) and a given municipalit
 head(data.frame(Lab5Assign::fetch_all_given_entity(kpi = "N00945",municipality_id = 1440,year = c(2009,2007,2008))))
 ```
 
-To retrieve details from a municipality_id(ie. 1860) in particular year enter(ie. 2009):
-```{r }
-head(fetch_given_muncipalityandyear(1860,2009))
+To retrieve information about all the kpi in dataset 
+run:
+```{r 'kpi'}
+head(data.frame(Lab5Assign::getMetadata(entity ='kpi')))
+
 ```
