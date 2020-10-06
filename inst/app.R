@@ -22,6 +22,7 @@ ui <- fluidPage( theme=shinytheme("superhero"),
                      "KPI",
                      mainPanel(
                        h1("Available KPIs"),
+                       h6("The Kolada database contains 5,000 key figures, ie measures that are suitable for comparisons. The available key performance indicators are displayed below"),
                        tableOutput("kpi1"),
                      )
                    ),
@@ -29,6 +30,7 @@ ui <- fluidPage( theme=shinytheme("superhero"),
                      "Municipality",
                      mainPanel(
                        h1("Available Muncipality Data"),
+                       h6("**Type :K stands for Swedish kommuner and L stands for landsting"),
                        tableOutput("munici1"),
                      )
                    ),
@@ -37,7 +39,11 @@ ui <- fluidPage( theme=shinytheme("superhero"),
                      sidebarPanel(
                        tags$h2("Input"),
                        selectInput("kpi","Select KPI",choices = a$KPI_ID),
-                       selectInput("munici","Select Municipality id :", choices = b$Municipality_ID)
+                       selectInput("munici","Select Municipality id :", choices = b$Municipality_ID),
+                       tags$h6("** Count contains the number of members associated with select muncipality id which is 1 unless selected id is a municipality group."),
+                       tags$h6("\nGender contains 3 values T(Total),K(Kvinna) and M(Man)."),
+                       tags$h6("\n Status is blank if weighted average is avialable , if not available it shows missing."),
+                       tags$h6("Value is the weighted average.")
                        
                      ),
                      mainPanel(
@@ -58,16 +64,10 @@ server <- function(input, output) {
     
   })
   output$kpi1 = renderTable({
-    rowset=c(1,2,3)
-    res=a[rowset]
-    names(res)=c("KPI Id","Title","Description")
-    res
+   a
   })
   output$munici1 = renderTable({
-    rowset1=c(1,2,3)
-    res1=b[rowset1]
-    names(res1)=c("Municipality Id","Title","Type")
-    res1
+    b
   })
 }
 

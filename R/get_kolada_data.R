@@ -142,7 +142,7 @@ fetch_given_muncipalityandyear = function(municipality_id,year){
 #' 
 #' @import tidyverse
 #' @import tidyr
-#' @return Returns a data.frame containing the data for a given kpi and municipality.
+#' @return Returns a data.frame containing the data for a given kpi and municipality. Data displayed are Count : number of embers associated with the selected KPIs and Municipality ID, Gender (Man , Kvinna and total),status : if the average is available and Value : weighted average
 #'
 #' @examples fetch_given_kpiandmuncipality_id("N00945",1860)
 #' @export
@@ -157,6 +157,7 @@ fetch_given_kpiandmuncipality_id = function(kpi,municipality_id){
     m3 = fromJSON(m2)[["values"]]
     m4 = unnest(m3,"values")
     final_result= as.data.frame(m4)
+    names(final_result)=c("KPI ID","Municipality ID","Year","Count(No. of members)","Gender","Status(Availability of value)","Value(Weighted average)")
   return(final_result)
 }
 

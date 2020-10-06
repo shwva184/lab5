@@ -12,7 +12,7 @@ fetch_given_kpiandmuncipality_id(kpi, municipality_id)
 \item{municipality_id}{Passing the id of municipality}
 }
 \value{
-Returns a data.frame containing the data for a given kpi and municipality.
+Returns a data.frame containing the data for a given kpi and municipality. Data displayed are Count : number of embers associated with the selected KPIs and Municipality ID, Gender (Man , Kvinna and total),status : if the average is available and Value : weighted average
 }
 \description{
 Retrieving data for given kpi and municipality.
