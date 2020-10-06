@@ -13,34 +13,48 @@
 getMetadata=function(entity,title=NULL)
 {
   stopifnot(is.character(entity),is.atomic(entity))
-  url=GET(paste("http://api.kolada.se/v2/", entity, sep = "", "?title=", title))
   if(entity=="kpi"| entity=="municipality" | entity=="ou" | entity=="kpi_groups" |
      entity== "municipality_groups"){
-    result=fromJSON(content(url,"text",encoding = "utf-8"), flatten=TRUE)
-  }
+     final_result=data.frame()
+     url = GET(paste("http://api.kolada.se/v2/", entity, sep = "", "?title=", title))
+     m2=content(url,as = "text")
+     m3=fromJSON(m2)[["values"]]
+     if(entity=="kpi"){
+       final_result = data.frame(KPI_ID=m3$id, Title=m3$title, Description=m3$description)
+       return(final_result)
+     }
+     if(entity=="municipality"){
+       final_result = data.frame(Municipality_ID=m3$id, Title=m3$title, Type=m3$type)
+       return(final_result)
+     }
+     if(entity=="ou"){
+       final_result = data.frame(Ou_ID=m3$id, Municipality=m3$municipality, Title=m3$title)
+       return(final_result)
+     }
+     if(entity=="kpi_groups"){
+       result=fromJSON(content(url,"text",encoding = "utf-8"), flatten=TRUE)
+       kpi.group.data.frame=as.data.frame(result)
+       kpi.data.frame = data.frame(member_id = integer(), member_title = character())
+       for (i in 1:nrow(kpi.group.data.frame)) {
+         group_kpi = kpi.group.data.frame[i, 3][[1]]
+         kpi.data.frame = rbind(kpi.data.frame, group_kpi)
+       }
+       return(kpi.data.frame)
+     }
+     if(entity=="municipality_groups"){
+       result=fromJSON(content(url,"text",encoding = "utf-8"), flatten=TRUE)
+       munic.group.data.frame=as.data.frame(result)
+       munic.data.frame = data.frame(member_id = integer(), member_title = character())
+       for (i in 1:nrow(munic.group.data.frame)) {
+         group_munic = munic.group.data.frame[i, 3][[1]]
+         munic.data.frame = rbind(munic.data.frame, group_munic)
+       }
+       return(munic.data.frame)
+     }
+     }
   else{
     return("Entity is not found")
   }
-  if(entity=="kpi_groups"){
-  kpi.group.data.frame=as.data.frame(result)
-  kpi.data.frame = data.frame(member_id = integer(), member_title = character())
-  for (i in 1:nrow(kpi.group.data.frame)) {
-    group_kpi = kpi.group.data.frame[i, 3][[1]]
-    kpi.data.frame = rbind(kpi.data.frame, group_kpi)
-  }
-  return(kpi.data.frame)
-  }
-  if(entity=="municipality_groups"){
-  munic.group.data.frame=as.data.frame(result)
-  munic.data.frame = data.frame(member_id = integer(), member_title = character())
-  for (i in 1:nrow(munic.group.data.frame)) {
-    group_munic = munic.group.data.frame[i, 3][[1]]
-    munic.data.frame = rbind(munic.data.frame, group_munic)
-  }
-  return(munic.data.frame)
-  }
-  if (result["count"] == 0) return(data.frame())
-  return(as.data.frame(result))
 }
 
 #' Retrieving data for given kpi, municipality and years

@@ -36,8 +36,8 @@ ui <- fluidPage( theme=shinytheme("superhero"),
                      "Kpi and Municipality",
                      sidebarPanel(
                        tags$h2("Input"),
-                       selectInput("kpi","Select KPI",choices = a$values.id),
-                       selectInput("munici","Select Municipality id :", choices = b$values.id )
+                       selectInput("kpi","Select KPI",choices = a$KPI_ID),
+                       selectInput("munici","Select Municipality id :", choices = b$Municipality_ID)
                        
                      ),
                      mainPanel(
@@ -52,19 +52,19 @@ ui <- fluidPage( theme=shinytheme("superhero"),
 server <- function(input, output) {
   
   output$result = renderTable({
-    shiny::validate(need(input$kpi %in% a$values.id , "Invalid KPI , Please look into KPI tab and input a valid KPI Id"))
-    shiny::validate(need(input$munici %in% b$values.id , "Invalid municipality id , Please look into Municipality tab and input a valid Municipality Id"))
+    shiny::validate(need(input$kpi %in% a$KPI_ID , "Invalid KPI , Please look into KPI tab and input a valid KPI Id"))
+    shiny::validate(need(input$munici %in% b$Municipality_ID , "Invalid municipality id , Please look into Municipality tab and input a valid Municipality Id"))
     fetch_given_kpiandmuncipality_id(input$kpi,input$munici)
     
   })
   output$kpi1 = renderTable({
-    rowset=c(5,14,2,3)
+    rowset=c(1,2,3)
     res=a[rowset]
-    names(res)=c("KPI Id","Title","Auspices","Description")
+    names(res)=c("KPI Id","Title","Description")
     res
   })
   output$munici1 = renderTable({
-    rowset1=c(2,3,4)
+    rowset1=c(1,2,3)
     res1=b[rowset1]
     names(res1)=c("Municipality Id","Title","Type")
     res1
