@@ -35,21 +35,6 @@ measured once a year, and the data may be divided by gender. I.e. for
 each KPI there may be at most three values, based on gender being
 female, male and a total.
 
-The general structure of the data is::
-```
-"KPI ID","Municipality ID","Year","Count(No. of members)","Gender", "Status","Value"
-```
-KPI: key performance indicators
-KPI_ID :  
-Municipality_ID: 
-Year: the year KPI has been measured.
-Count: number of members associated with the selected KPIs
-Gender: Male/Female
-Status column: shows if the average is available.
-Value column : contains the weighted average 
-The Key performance indicator values are referred to as data whereas metadata describes Key performance indicator,Municipality
-Organizational unit (OU).
-
 source: https://github.com/Hypergene/kolada#kolada-api
 
 <span style="color:blue">How to install</span>
@@ -78,42 +63,55 @@ to run the API interface :
 runGitHub(repo = 'shwva184/lab5',username ='shwva184',subdir = 'inst', display.mode = "showcase")
 
 ```
-the Kolada API client provides access to standardized key performance indicators (KPI) concerning Swedish municipalities and organizational units. In the API you will find three tab.
 
-* [kpi](https://en.wikipedia.org/wiki/Performance_indicator)
-* [municipality](https://github.com/Hypergene/kolada)
-* [Kpi and Municipality](https://github.com/Hypergene/kolada)
 
-### <span style="color:blue">instruction to run from a consule</span>
-To retrieve Title of the municipality, municipality_ID and municipality_type (L :Landsting or K : Kommun) run:
-```{r }
-head(data.frame(Lab5Assign::getMetadata(entity ='municipality')))
-```
+#### Tab1 : KPI 
 
-To fetch count, values.id, values.title, values.type about a specific municipality (ie.Helsingborg ) run:
+The Kolada API client provides access to standardized key performance indicators (KPI) concerning Swedish municipalities and organizational units.The follwing function is modified to give out KPI_Id,Tittle and description. For a proper query URL you need metadata such as id of a KPI(KPI Id) to retrieve the associated data.Tittle displays the name of the kpi. Description gives information needed to understand kpi.
+
+Note the KPI id , which we will need to retrieve data from tab3
+
+This functions fetches the above mention fields from URL : http://api.kolada.se/v2/kpi
 
 ```{r }
-getMetadata("municipality","Helsingborg")
+head(data.frame(Lab5Assign::getMetadata(entity ='kpi')),5) #Displaying only top 5 here.
 ```
 
-### Fetch
-To fetch period, gender,status and value for a specific kpi(ie. N00945) in a municipality(ie. 1860)
+
+
+
+### Tab2 : Municipality
+
+Here we are retrieving information on ID associated with a particular municipality , names of all available muncipalities and municipality type is either L (for County Council (swedish: Landsting)) or K for municipality (swedish: Kommun).
+
+Note the KPI id , which we will need to retrieve data from tab3
+
+This functions fetches the above mention fields from URL : http://api.kolada.se/v2/municipality
+
+
 ```{r }
-head(fetch_given_kpiandmuncipality_id("N00945",1860))
+head(data.frame(Lab5Assign::getMetadata(entity ='municipality')),5)#Displaying only top 5 here.
 ```
 
-To fetch kpi,count, gender,status and value from specific municipality(ie. 1860) in particular period (ie. 2009) run:
+### Tab3 : KPI and Municipality
+The municipal data contains KPIs for the Swedish kommuner and landsting, there are about 4500 KPIs within the database. Each KPI is currently measured once a year, and the data may be divided by gender. I.e. for each KPI there may be at most three values, based on gender being female, male and a total.
+
+The structure of the data is::
+```
+"KPI ID","Municipality ID","Year","Count(No. of members)","Gender", "Status","Value"
+```
+KPI_ID :  ID associated with KPI 
+Municipality_ID: ID associated with Municipality
+Year: the year KPI has been measured.
+Count: number of members associated with the selected Municipality and KPI
+Gender: Man, Kvinna and Total
+Status column: shows if the average is available.
+Value column : contains the unweighted average.(An unweighted average describes the average for Sweden's municipalities / regions - what it looks like in an average municipality / region. It is calculated by summing the value of all municipalities or regions and dividing by 290 and 21, respectively. If one or more municipalities / regions do not have data for the current key figure, the value is divided by the number that has values. Example: An unweighted average value for all municipalities regarding Merit value in year 9 will describe the value for an average municipality.)
+
+
+To retrieve data for a specific kpi(ie. N02924) in a municipality(ie. 1440)
+URL : http://api.kolada.se/v2/data/kpi/N02924/municipality/0761
+
 ```{r }
-head(fetch_given_muncipalityandyear(1860,2009))
-```
-To fetch gender,status and value from a specific kpi in a specific period and municipality run:
-
-```{r }
-head(data.frame(Lab5Assign::fetch_all_given_entity(kpi = "N00945",municipality_id = 1440,year = c(2009,2007,2008))))
-```
-
-To fetch KPI_ID, Title, and additional Description about  the kpi in dataset run:
-```{r 'kpi'}
-head(data.frame(Lab5Assign::getMetadata(entity ='kpi')))
-
+head(fetch_given_kpiandmuncipality_id("N02924",1440),10)#Displaying only top 10 here.
 ```
