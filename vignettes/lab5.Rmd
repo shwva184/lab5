@@ -110,7 +110,7 @@ Value column : contains the unweighted average.(An unweighted average describes 
 
 
 To retrieve data for a specific kpi(ie. N02924) in a municipality(ie. 1440)
-URL : http://api.kolada.se/v2/data/kpi/N02924/municipality/0761
+URL : http://api.kolada.se/v2/data/kpi/N02924/municipality/1440
 
 ```{r }
 head(fetch_given_kpiandmuncipality_id("N02924",1440),10)#Displaying only top 10 here.
