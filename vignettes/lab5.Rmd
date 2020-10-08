@@ -4,7 +4,7 @@ output:
     rmarkdown::html_vignette:
       toc: true
 
-author: "Hoda, shwetha ,suhani"
+author: "Hoda, Shwetha ,Suhani"
 date: "`r Sys.Date()`"
 vignette: >
   %\VignetteIndexEntry{lab5}
@@ -65,11 +65,11 @@ runGitHub(repo = 'shwva184/lab5',username ='shwva184',subdir = 'inst', display.m
 ```
 
 
-#### Tab1 : KPI 
+### Tab1 : KPI 
 
-The Kolada API client provides access to standardized key performance indicators (KPI) concerning Swedish municipalities and organizational units.The follwing function is modified to give out KPI_Id,Tittle and description. For a proper query URL you need metadata such as id of a KPI(KPI Id) to retrieve the associated data.Tittle displays the name of the kpi. Description gives information needed to understand kpi.
+The Kolada API client provides access to standardized key performance indicators (KPI) concerning Swedish municipalities and organizational units.The following function is modified to give out KPI_Id,Title and description. For a proper query URL, you need metadata such as id of a KPI(KPI Id) to retrieve the associated data.Title displays the name of the KPI. Description gives information needed to understand KPI.
 
-Note the KPI id , which we will need to retrieve data from tab3
+Note: We need KPI_Id to retrieve data from Tab3.
 
 This functions fetches the above mention fields from URL : http://api.kolada.se/v2/kpi
 
@@ -82,9 +82,9 @@ head(data.frame(Lab5Assign::getMetadata(entity ='kpi')),5) #Displaying only top 
 
 ### Tab2 : Municipality
 
-Here we are retrieving information on ID associated with a particular municipality , names of all available muncipalities and municipality type is either L (for County Council (swedish: Landsting)) or K for municipality (swedish: Kommun).
+Here we are retrieving information on ID associated with a particular municipality , names of all available municipalities and municipality type is either L (for County Council (swedish: Landsting)) or K for municipality (swedish: Kommun).
 
-Note the KPI id , which we will need to retrieve data from tab3
+Note: We need Municipality_Id to retrieve data from Tab3
 
 This functions fetches the above mention fields from URL : http://api.kolada.se/v2/municipality
 
@@ -94,7 +94,7 @@ head(data.frame(Lab5Assign::getMetadata(entity ='municipality')),5)#Displaying o
 ```
 
 ### Tab3 : KPI and Municipality
-The municipal data contains KPIs for the Swedish kommuner and landsting, there are about 4500 KPIs within the database. Each KPI is currently measured once a year, and the data may be divided by gender. I.e. for each KPI there may be at most three values, based on gender being female, male and a total.
+The municipal data contains KPIs for the Swedish kommuner and landsting, there are about 4500 KPIs within the database. Each KPI is currently measured once a year, and the data may be divided by gender i.e. for each KPI there may be at most three values, based on gender being Female, Male and a Total.
 
 The structure of the data is::
 ```
@@ -104,7 +104,7 @@ KPI_ID :  ID associated with KPI
 Municipality_ID: ID associated with Municipality
 Year: the year KPI has been measured.
 Count: number of members associated with the selected Municipality and KPI
-Gender: Man, Kvinna and Total
+Gender: Man(M), Kvinna(K) and Total(T)
 Status column: shows if the average is available.
 Value column : contains the unweighted average.(An unweighted average describes the average for Sweden's municipalities / regions - what it looks like in an average municipality / region. It is calculated by summing the value of all municipalities or regions and dividing by 290 and 21, respectively. If one or more municipalities / regions do not have data for the current key figure, the value is divided by the number that has values. Example: An unweighted average value for all municipalities regarding Merit value in year 9 will describe the value for an average municipality.)
 
