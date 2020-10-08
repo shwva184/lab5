@@ -1,7 +1,11 @@
 ---
 title: <span style="color:blue">Lab5</span>
-output: rmarkdown::html_vignette
+output: 
+    rmarkdown::html_vignette:
+      toc: true
+
 author: "Hoda, shwetha ,suhani"
+date: "`r Sys.Date()`"
 vignette: >
   %\VignetteIndexEntry{lab5}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,7 +15,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE
 )
 ```
 The kolada database
@@ -31,17 +36,28 @@ each KPI there may be at most three values, based on gender being
 female, male and a total.
 
 The general structure of the data is::
+```
+"KPI ID","Municipality ID","Year","Count(No. of members)","Gender", "Status","Value"
+```
+KPI: key performance indicators
+KPI_ID :  
+Municipality_ID: 
+Year: the year KPI has been measured.
+Count: number of members associated with the selected KPIs
+Gender: Male/Female
+Status column: shows if the average is available.
+Value column : contains the weighted average 
+The Key performance indicator values are referred to as data whereas metadata describes Key performance indicator,Municipality
+Organizational unit (OU).
 
-    KPI, municipal or organizational unit, year, gender: data
 source: https://github.com/Hypergene/kolada#kolada-api
-------------------------------------------------------------
 
 <span style="color:blue">How to install</span>
 =============
 
 ```{r , eval=FALSE}
 devtools::install_github("shwva184/lab5")
-
+runApp("inst", display.mode = "showcase")
 ```
 
 <span style="color:blue">Required packages</span>
@@ -58,39 +74,45 @@ require(shinythemes)
 to run the API interface :
 
 ```
-runGitHub(repo = 'shwva184/lab5',username ='shwva184',subdir = 'inst' )
+{r }
+runGitHub(repo = 'shwva184/lab5',username ='shwva184',subdir = 'inst', display.mode = "showcase")
+
 ```
+the Kolada API client provides access to standardized key performance indicators (KPI) concerning Swedish municipalities and organizational units. In the API you will find three tab.
+
+* [kpi](https://en.wikipedia.org/wiki/Performance_indicator)
+* [municipality](https://github.com/Hypergene/kolada)
+* [Kpi and Municipality](https://github.com/Hypergene/kolada)
 
 ### <span style="color:blue">instruction to run from a consule</span>
-To retrieve information about all the municipality run:
+To retrieve Title of the municipality, municipality_ID and municipality_type (L :Landsting or K : Kommun) run:
 ```{r }
 head(data.frame(Lab5Assign::getMetadata(entity ='municipality')))
 ```
 
-To retrieve information about a specific municipality (ie.Helsingborg ) run:
+To fetch count, values.id, values.title, values.type about a specific municipality (ie.Helsingborg ) run:
 
 ```{r }
 getMetadata("municipality","Helsingborg")
 ```
 
-To retrieve details for a specific kpi(ie. N00945) and municipality_id(ie. 1860)
+### Fetch
+To fetch period, gender,status and value for a specific kpi(ie. N00945) in a municipality(ie. 1860)
 ```{r }
 head(fetch_given_kpiandmuncipality_id("N00945",1860))
 ```
 
-To retrieve details from a municipality_id(ie. 1860) in particular year enter(ie. 2009):
+To fetch kpi,count, gender,status and value from specific municipality(ie. 1860) in particular period (ie. 2009) run:
 ```{r }
 head(fetch_given_muncipalityandyear(1860,2009))
 ```
-
-To retrieve information about a specific kpi(ie. N00945) and a given municipality_id(ie. 1440) for a specific year run:
+To fetch gender,status and value from a specific kpi in a specific period and municipality run:
 
 ```{r }
 head(data.frame(Lab5Assign::fetch_all_given_entity(kpi = "N00945",municipality_id = 1440,year = c(2009,2007,2008))))
 ```
 
-To retrieve information about all the kpi in dataset 
-run:
+To fetch KPI_ID, Title, and additional Description about  the kpi in dataset run:
 ```{r 'kpi'}
 head(data.frame(Lab5Assign::getMetadata(entity ='kpi')))
 
